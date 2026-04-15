@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Shay</title>
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+}
+
+/* INTRO */
+.intro {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    text-align: center;
+    animation: fadeOut 3s forwards;
+    animation-delay: 3s;
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+}
+
+/* MAIN */
+.container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    line-height: 1.8;
+    font-size: 18px;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+    animation-delay: 3.5s;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+h1 {
+    text-align: center;
+    color: #ff4d6d;
+}
+
+.section {
+    margin: 40px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 1s forwards;
+}
+
+.section:nth-child(2){animation-delay:4s;}
+.section:nth-child(3){animation-delay:5s;}
+.section:nth-child(4){animation-delay:6s;}
+.section:nth-child(5){animation-delay:7s;}
+.section:nth-child(6){animation-delay:8s;}
+.section:nth-child(7){animation-delay:9s;}
+.section:nth-child(8){animation-delay:10s;}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.highlight {
+    color: #ff4d6d;
+}
+
+/* COUNTDOWN */
+.countdown {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 30px;
+    color: #ff4d6d;
+}
+
+/* POEM */
+.poem {
+    margin-top: 40px;
+    font-style: italic;
+    text-align: center;
+    color: #ddd;
+    line-height: 2;
+}
+
+/* BUTTON */
+button {
+    display: block;
+    margin: 40px auto;
+    padding: 12px 25px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+/* FINAL */
+.final {
+    text-align: center;
+    margin-top: 60px;
+    color: #aaa;
+}
+</style>
+
+<script>
+function updateCountdown() {
+    const target = new Date("April 20, 2026 00:00:00").getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
+
+    if (diff <= 0) {
+        document.getElementById("countdown").innerHTML = "you're back.";
+        return;
+    }
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24))/(1000*60*60));
+
+    document.getElementById("countdown").innerHTML =
+        days + " days " + hours + " hrs";
+}
+setInterval(updateCountdown, 1000);
+
+function reveal() {
+    document.getElementById("hiddenMessage").style.display = "block";
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="intro">
+this isn’t easy for me to say…
+</div>
+
+<div class="container">
+
+<h1>Shay</h1>
+
+<div class="section">
+I’ve been thinking about everything… not just reacting, not just feeling… actually thinking.
+
+And yeah… I know I messed up.
+
+I hate that I hurt you.  
+That part sits with me more than anything.
+</div>
+
+<div class="section">
+But there’s something I haven’t been able to shake…
+
+<span class="highlight">the silence.</span>
+
+The way you can just go quiet…  
+like I’m suddenly not there anymore.
+</div>
+
+<div class="section">
+I won’t lie to you…
+
+<span class="highlight">choosing silence over the hard conversations fucks me up.</span>
+
+Because I would rather sit in something uncomfortable with you…  
+argue, fix it, talk through it…
+
+than feel like I’m that easy to shut out.
+</div>
+
+<div class="section">
+Maybe we just handle things differently when it gets hard…
+
+I don’t always get it right, but I try to stay,  
+to talk, to fix things instead of letting them drift.
+
+That’s just how I am.
+</div>
+
+<div class="section">
+I care about you more than I’ve probably said the right way.
+
+But I’m also learning something about myself right now…
+
+I can’t force you to talk to me.  
+I can’t force you to choose me.
+
+So I won’t chase you.
+</div>
+
+<div class="section">
+Not because I don’t want you…
+
+but because I need to be someone  
+<span class="highlight">who respects himself too.</span>
+</div>
+
+<div class="countdown" id="countdown"></div>
+
+<div class="section">
+You’re coming back on the 20th…
+
+And I won’t lie…  
+I hope I get to see you.
+
+Not to argue… not to force anything…
+
+just… to look at you and know  
+if there’s still something here.
+</div>
+
+<div class="poem">
+If love was loud, I’d shout your name,<br>
+but mine has learned to stay the same.<br><br>
+
+Not in the noise, not in the chase,<br>
+but in the quiet you can’t replace.<br><br>
+
+I didn’t leave when things got hard,<br>
+I stayed… even when you pulled apart.<br><br>
+
+And maybe that’s what you’ll one day see,<br>
+no one will hold you the way I did… quietly.
+</div>
+
+<button onclick="reveal()">tap this when you're ready</button>
+
+<div id="hiddenMessage" class="hidden">
+I’m still here.
+
+Not chasing.  
+Not begging.
+
+Just… here.
+
+And if you come back and there’s still something between us,  
+I’m willing to do this the right way.
+
+But if silence is your answer…
+
+I’ll accept it.
+
+I just wish it didn’t feel like losing you this quietly.
+</div>
+
+<div class="final">
+still yours…<br>
+your Spider-Man 🕷️
+</div>
+
+</div>
+
+</body>
+</html>
