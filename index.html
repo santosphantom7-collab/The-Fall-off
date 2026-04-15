@@ -14,121 +14,99 @@ body {
     overflow-x: hidden;
 }
 
-/* INTRO */
-.intro {
+/* LOCK SCREEN */
+.lock {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 28px;
+    flex-direction: column;
     text-align: center;
-    animation: fadeOut 3s forwards;
-    animation-delay: 3s;
+    padding: 20px;
 }
 
-@keyframes fadeOut {
-    to { opacity: 0; visibility: hidden; }
+.lock h1 {
+    color: #ff4d6d;
+    font-size: 28px;
 }
 
-/* MAIN */
+.countdown {
+    margin-top: 20px;
+    font-size: 22px;
+    color: #ff4d6d;
+}
+
+button {
+    margin-top: 25px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+}
+
+/* CONTENT */
 .container {
-    max-width: 700px;
+    display: none;
+    max-width: 750px;
     margin: auto;
     padding: 20px;
     line-height: 1.8;
     font-size: 18px;
-    opacity: 0;
-    animation: fadeIn 2s forwards;
-    animation-delay: 3.5s;
 }
 
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
-
-h1 {
+h1, h2 {
     text-align: center;
     color: #ff4d6d;
 }
 
 .section {
-    margin: 40px 0;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideUp 1s forwards;
+    margin: 35px 0;
 }
 
-.section:nth-child(2){animation-delay:4s;}
-.section:nth-child(3){animation-delay:5s;}
-.section:nth-child(4){animation-delay:6s;}
-.section:nth-child(5){animation-delay:7s;}
-.section:nth-child(6){animation-delay:8s;}
-.section:nth-child(7){animation-delay:9s;}
-.section:nth-child(8){animation-delay:10s;}
-
-@keyframes slideUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.highlight {
-    color: #ff4d6d;
-}
-
-/* COUNTDOWN */
-.countdown {
-    text-align: center;
-    font-size: 24px;
-    margin-top: 30px;
-    color: #ff4d6d;
-}
-
-/* POEM */
 .poem {
     margin-top: 40px;
-    font-style: italic;
     text-align: center;
+    font-style: italic;
     color: #ddd;
     line-height: 2;
 }
 
-/* BUTTON */
-button {
-    display: block;
-    margin: 40px auto;
-    padding: 12px 25px;
-    border: none;
-    background: #ff4d6d;
-    color: white;
-    border-radius: 25px;
-    cursor: pointer;
-}
-
-.hidden {
-    display: none;
-    text-align: center;
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-/* FINAL */
 .final {
     text-align: center;
     margin-top: 60px;
     color: #aaa;
 }
+
+/* POPUP */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.92);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.popup h1 {
+    color: #ff4d6d;
+}
 </style>
 
 <script>
+const unlockDate = new Date("April 20, 2026 00:00:00");
+
 function updateCountdown() {
-    const target = new Date("April 20, 2026 00:00:00").getTime();
-    const now = new Date().getTime();
-    const diff = target - now;
+    const now = new Date();
+    const diff = unlockDate - now;
 
     if (diff <= 0) {
-        document.getElementById("countdown").innerHTML = "you're back.";
+        unlock();
         return;
     }
 
@@ -138,21 +116,46 @@ function updateCountdown() {
     document.getElementById("countdown").innerHTML =
         days + " days " + hours + " hrs";
 }
+
 setInterval(updateCountdown, 1000);
 
-function reveal() {
-    document.getElementById("hiddenMessage").style.display = "block";
+function unlock() {
+    document.querySelector(".lock").style.display = "none";
+    document.querySelector(".container").style.display = "block";
+    document.getElementById("chapter2").style.display = "block";
+    document.getElementById("popup").style.display = "flex";
+
+    if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("Welcome home, Shay 🕷️", {
+            body: "A message is waiting for you."
+        });
+    }
+}
+
+function enableNotification() {
+    if ("Notification" in window) {
+        Notification.requestPermission();
+    }
 }
 </script>
 
 </head>
 
-<body>
+<body onload="updateCountdown()">
 
-<div class="intro">
-this isn’t easy for me to say…
+<!-- LOCK -->
+<div class="lock">
+    <h1>locked until April 20</h1>
+    <div id="countdown" class="countdown"></div>
+    <p style="opacity:0.7;margin-top:15px;">
+        something is waiting for you…
+    </p>
+    <button onclick="enableNotification()">enable reminder</button>
 </div>
 
+<!-- ========================= -->
+<!-- CHAPTER 1 (ORIGINAL TONE) -->
+<!-- ========================= -->
 <div class="container">
 
 <h1>Shay</h1>
@@ -161,7 +164,9 @@ this isn’t easy for me to say…
 I’ve been thinking about everything… not just reacting, not just feeling… actually thinking.
 
 And yeah… I know I messed up.
+</div>
 
+<div class="section">
 I hate that I hurt you.  
 That part sits with me more than anything.
 </div>
@@ -169,96 +174,58 @@ That part sits with me more than anything.
 <div class="section">
 But there’s something I haven’t been able to shake…
 
-<span class="highlight">the silence.</span>
+the silence.
 
-The way you can just go quiet…  
-like I’m suddenly not there anymore.
+The way you can just go quiet… like I’m suddenly not there anymore.
 </div>
 
 <div class="section">
 I won’t lie to you…
 
-<span class="highlight">choosing silence over the hard conversations fucks me up.</span>
-
-Because I would rather sit in something uncomfortable with you…  
-argue, fix it, talk through it…
-
-than feel like I’m that easy to shut out.
+choosing silence over hard conversations really hurts me.
 </div>
 
 <div class="section">
-Maybe we just handle things differently when it gets hard…
+Maybe we just handle things differently when things get hard…
 
-I don’t always get it right, but I try to stay,  
-to talk, to fix things instead of letting them drift.
-
-That’s just how I am.
+I try to stay, talk, and understand.
 </div>
 
 <div class="section">
-I care about you more than I’ve probably said the right way.
-
-But I’m also learning something about myself right now…
-
-I can’t force you to talk to me.  
-I can’t force you to choose me.
+I can’t force you to talk to me.
 
 So I won’t chase you.
 </div>
 
 <div class="section">
-Not because I don’t want you…
+Not because I don’t care…
 
-but because I need to be someone  
-<span class="highlight">who respects himself too.</span>
+but because I need to respect myself too.
 </div>
 
-<div class="countdown" id="countdown"></div>
+<div class="section">
+And your happiness comes first.
+
+Even if that path doesn’t include me.
+</div>
 
 <div class="section">
-You’re coming back on the 20th…
-
-And I won’t lie…  
+You’re coming back on the 20th…  
 I hope I get to see you.
-
-Not to argue… not to force anything…
-
-just… to look at you and know  
-if there’s still something here.
 </div>
 
 <div class="poem">
-If love was loud, I’d shout your name,<br>
-but mine has learned to stay the same.<br><br>
+If love had weight, I’d carry it quiet,<br>
+never to pull you into my silence or riot.<br><br>
 
-Not in the noise, not in the chase,<br>
-but in the quiet you can’t replace.<br><br>
+I won’t be the reason you stay or you leave,<br>
+just someone who cared more than you’d believe.<br><br>
 
-I didn’t leave when things got hard,<br>
-I stayed… even when you pulled apart.<br><br>
+If your happiness calls you somewhere I’m not,<br>
+I’ll still be glad for the moments we got.<br><br>
 
-And maybe that’s what you’ll one day see,<br>
-no one will hold you the way I did… quietly.
-</div>
-
-<button onclick="reveal()">tap this when you're ready</button>
-
-<div id="hiddenMessage" class="hidden">
-I’m still here.
-
-Not chasing.  
-Not begging.
-
-Just… here.
-
-And if you come back and there’s still something between us,  
-I’m willing to do this the right way.
-
-But if silence is your answer…
-
-I’ll accept it.
-
-I just wish it didn’t feel like losing you this quietly.
+Because you matter more than the shape of my pain,<br>
+even if I never hear from you again.
 </div>
 
 <div class="final">
@@ -266,6 +233,81 @@ still yours…<br>
 your Spider-Man 🕷️
 </div>
 
+</div>
+
+<!-- ========================= -->
+<!-- CHAPTER 2 (NEW CLEAN LOVE) -->
+<!-- ========================= -->
+<div class="container" id="chapter2" style="display:none;">
+
+<h2>welcome home, Shay</h2>
+
+<div class="section">
+If you’re reading this… then you’re here.
+</div>
+
+<div class="section">
+I don’t want this to feel heavy.
+
+I just wanted to be honest with you.
+</div>
+
+<div class="section">
+I love you, Shay.
+
+That’s really it.
+</div>
+
+<div class="section">
+Not because I need anything from you…
+
+and not because I’m trying to change anything.
+</div>
+
+<div class="section">
+Just because I do.
+</div>
+
+<div class="section">
+I’m not here to pressure you, or ask for answers.
+
+I just wanted you to know my feelings were real.
+</div>
+
+<div class="section">
+And they still are.
+</div>
+
+<div class="section">
+Whatever happens from here…
+
+I won’t force it.
+</div>
+
+<div class="section">
+But I’m glad you exist in my life.
+
+Even in the quiet.
+</div>
+
+<div class="poem">
+I don’t need the world to understand,<br>
+just the moment you see my hand.<br><br>
+
+Not pulling, not asking you to stay,<br>
+just loving you in my own way.
+</div>
+
+<div class="final">
+still yours…<br>
+your Spider-Man 🕷️
+</div>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+    <h1>welcome home, Shay 🕷️</h1>
 </div>
 
 </body>
